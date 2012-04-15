@@ -14,6 +14,7 @@ $(document).ready(function(){
     }
 
     $('#doneButton').click(function(){
+        $('#instruction').hide();
         $('#content').html($('#edit').contents().find('body').html());
         $('#content').show();
         $('#edit').hide();
@@ -30,12 +31,11 @@ $(document).ready(function(){
         document.getElementById('edit').contentWindow.document.execCommand("forecolor", false, 'red');
         document.getElementById("edit").contentWindow.focus();
     });
-    $('#submitButton').click(function(){
-        $('#content').html($('#textInput').val().replace(/\n\r?/g, '<br/>'));
-        $('#textInput').hide();
-        $('#instruction').hide();
-        $('#submitButton').hide();
-        $('#editButton').click();
+
+    $('#repButton').click(function(){
+         var contents = $('#edit').contents().find('body').html();
+         contents = contents.replace(/<p><\/p>/g, '');
+         $('#edit').contents().find('body').html(contents);
     });
 });
 
@@ -70,19 +70,14 @@ function keypress(event){
     }
 };
 
-function start(){
-
-};
-
     </script>
     </head>
-    <body onLoad="start()">
+    <body>
         <div id="instruction">Enter some text to correct:</div>
-        <textarea id="textInput" rows=20 cols=100></textarea>
         <div id="content"></div>
-        <iframe id="edit" width="100%" height="200px" style='display: none'></iframe>
-        <button id="doneButton" style='display: none'>Done</button>
+        <iframe id="edit" width="100%" height="200px"></iframe>
+        <button id="doneButton">Done</button>
         <button id="editButton" style='display: none'>Correct</button>
-        <button id="submitButton">Start Correcting!</button>
+        <button id="repButton">Remove empty paragraphs</button>
     </body>
 </html>
