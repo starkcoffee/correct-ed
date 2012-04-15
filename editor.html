@@ -5,7 +5,6 @@
         <script>
 
 $(document).ready(function(){
-   $('#stuff').html("hi some text to correct");
     document.getElementById('edit').contentWindow.document.designMode = "on";
 
     if (document.addEventListener) {
@@ -15,21 +14,28 @@ $(document).ready(function(){
     }
 
     $('#doneButton').click(function(){
-        $('#stuff').html($('#edit').contents().find('body').html());
-        $('#stuff').show();
+        $('#content').html($('#edit').contents().find('body').html());
+        $('#content').show();
         $('#edit').hide();
         $('#doneButton').hide();
         $('#editButton').show();
     });
 
     $('#editButton').click(function(){
-        $('#edit').contents().find('body').html($('#stuff').html());
-        $('#stuff').hide();
+        $('#edit').contents().find('body').html($('#content').html());
+        $('#content').hide();
         $('#edit').show();
         $('#doneButton').show();
         $('#editButton').hide();
         document.getElementById('edit').contentWindow.document.execCommand("forecolor", false, 'red');
         document.getElementById("edit").contentWindow.focus();
+    });
+    $('#submitButton').click(function(){
+        $('#content').html($('#textInput').val());
+        $('#textInput').hide();
+        $('#instruction').hide();
+        $('#submitButton').hide();
+        $('#editButton').click();
     });
 });
 
@@ -71,9 +77,12 @@ function start(){
     </script>
     </head>
     <body onLoad="start()">
-        <div id="stuff"></div>
+        <div id="instruction">Enter some text to correct:</div>
+        <textarea id="textInput" rows=20 cols=100></textarea>
+        <div id="content"></div>
         <iframe id="edit" width="100%" height="200px" style='display: none'></iframe>
         <button id="doneButton" style='display: none'>Done</button>
-        <button id="editButton">Correct</button>
+        <button id="editButton" style='display: none'>Correct</button>
+        <button id="submitButton">Start Correcting!</button>
     </body>
 </html>
