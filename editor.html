@@ -10,13 +10,22 @@ $(document).ready(function(){
     }  catch (e) {
         alert("This editor is not supported by your browser.");
     }
+
     $('#doneButton').click(function(){
         $('#stuff').html($('#edit').contents().find('body').html());
-        document.getElementById('edit').contentWindow.document.designMode = "off";
+        $('#stuff').show();
         $('#edit').hide();
         $('#doneButton').hide();
         $('#editButton').show();
     });
+
+    $('#editButton').click(function(){
+        $('#stuff').hide();
+        $('#edit').show();
+        $('#doneButton').show();
+        $('#editButton').hide();
+    });
+
 });
 
     </script>
