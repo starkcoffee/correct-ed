@@ -31,7 +31,7 @@ $(document).ready(function(){
         document.getElementById("edit").contentWindow.focus();
     });
     $('#submitButton').click(function(){
-        $('#content').html($('#textInput').val());
+        $('#content').html($('#textInput').val().replace(/\n\r?/g, '<br/>'));
         $('#textInput').hide();
         $('#instruction').hide();
         $('#submitButton').hide();
