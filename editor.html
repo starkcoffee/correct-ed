@@ -7,12 +7,6 @@
 $(document).ready(function(){
    $('#stuff').html("hi some text to correct");
     document.getElementById('edit').contentWindow.document.designMode = "on";
-    try {
-        document.getElementById('edit').contentWindow.document.execCommand("undo", false, null);
-        document.getElementById('edit').contentWindow.document.execCommand("forecolor", false, 'red');
-    }  catch (e) {
-        alert("This editor is not supported by your browser.");
-    }
 
     if (document.addEventListener) {
         document.addEventListener("mousedown", setcolor, true);
