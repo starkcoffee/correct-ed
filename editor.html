@@ -3,12 +3,27 @@
         <title>Rich Text Editing Demo</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script>
+
 $(document).ready(function(){
+   $('#stuff').html("hi some text to correct");
     document.getElementById('edit').contentWindow.document.designMode = "on";
     try {
         document.getElementById('edit').contentWindow.document.execCommand("undo", false, null);
+        document.getElementById('edit').contentWindow.document.execCommand("forecolor", false, 'red');
     }  catch (e) {
         alert("This editor is not supported by your browser.");
+    }
+
+    if (document.addEventListener) {
+        document.addEventListener("mousedown", setcolor, true);
+        document.getElementById("edit").contentWindow.document.addEventListener("mousedown", setcolor, true);
+        document.addEventListener("keypress", setcolor, true);
+        document.getElementById("edit").contentWindow.document.addEventListener("keypress", setcolor, true);
+    } else if (document.attachEvent) {
+        document.attachEvent("mousedown", setcolor, true);
+        document.getElementById("edit").contentWindow.document.attachEvent("mousedown", setcolor, true);
+        document.attachEvent("keypress", setcolor, true);
+        document.getElementById("edit").contentWindow.document.attachEvent("keypress", setcolor, true);
     }
 
     $('#doneButton').click(function(){
@@ -20,20 +35,30 @@ $(document).ready(function(){
     });
 
     $('#editButton').click(function(){
+        $('#edit').contents().find('body').html($('#stuff').html());
         $('#stuff').hide();
         $('#edit').show();
         $('#doneButton').show();
         $('#editButton').hide();
+        document.getElementById('edit').contentWindow.document.execCommand("forecolor", false, 'red');
+        document.getElementById("edit").contentWindow.focus();
     });
-
 });
+
+function setcolor(){
+    document.getElementById('edit').contentWindow.document.execCommand("forecolor", false, 'red');
+};
+
+function start(){
+
+};
 
     </script>
     </head>
-    <body >
+    <body onLoad="start()">
         <div id="stuff"></div>
-        <iframe id="edit" width="100%" height="200px"></iframe>
-        <button id="doneButton">Done</button>
-        <button id="editButton" style='display: none'>Edit</button>
+        <iframe id="edit" width="100%" height="200px" style='display: none'></iframe>
+        <button id="doneButton" style='display: none'>Done</button>
+        <button id="editButton">Correct</button>
     </body>
 </html>
