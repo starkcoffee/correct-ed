@@ -43,6 +43,10 @@ function selectionExists(window){
 
 var strikethroughPerformed = false;
 function keypress(event){
+    // hack for firefox so pressing arrow keys doesn't undo the selection strikethrough
+    if (event.which == 0)
+        return;
+
     var win = document.getElementById('edit').contentWindow;
 
     if(keyIs_s_(event.which) && selectionExists(win)){
@@ -50,11 +54,8 @@ function keypress(event){
         event.preventDefault();
         strikethroughPerformed = true;
     }
-    // this here so that if user presses space after striking through, the strikethrough doesn't continue onto the text they type
-    //else if(event.which == "32"){
-    //    win.document.execCommand("strikethrough", false, null);
-    //}
     else{
+        // hack so typing after a strikethrough doesn't cause text to be in strikethrough
         if (strikethroughPerformed){
             win.document.execCommand("strikethrough", false, null);
             strikethroughPerformed = false;
