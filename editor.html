@@ -9,14 +9,8 @@ $(document).ready(function(){
     document.getElementById('edit').contentWindow.document.designMode = "on";
 
     if (document.addEventListener) {
-        document.addEventListener("mousedown", setcolor, true);
-        document.getElementById("edit").contentWindow.document.addEventListener("mousedown", setcolor, true);
-        document.addEventListener("keypress", setcolor, true);
         document.getElementById("edit").contentWindow.document.addEventListener("keypress", setcolor, true);
     } else if (document.attachEvent) {
-        document.attachEvent("mousedown", setcolor, true);
-        document.getElementById("edit").contentWindow.document.attachEvent("mousedown", setcolor, true);
-        document.attachEvent("keypress", setcolor, true);
         document.getElementById("edit").contentWindow.document.attachEvent("keypress", setcolor, true);
     }
 
