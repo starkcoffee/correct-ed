@@ -9,9 +9,9 @@ $(document).ready(function(){
     document.getElementById('edit').contentWindow.document.designMode = "on";
 
     if (document.addEventListener) {
-        document.getElementById("edit").contentWindow.document.addEventListener("keypress", setcolor, true);
+        document.getElementById("edit").contentWindow.document.addEventListener("keypress", keypress, true);
     } else if (document.attachEvent) {
-        document.getElementById("edit").contentWindow.document.attachEvent("keypress", setcolor, true);
+        document.getElementById("edit").contentWindow.document.attachEvent("keypress", keypress, true);
     }
 
     $('#doneButton').click(function(){
@@ -33,8 +33,34 @@ $(document).ready(function(){
     });
 });
 
-function setcolor(){
-    document.getElementById('edit').contentWindow.document.execCommand("forecolor", false, 'red');
+function keyIs_s_(keycode){
+    return keycode == 115 || keycode == 83;
+};
+
+function selectionExists(window){
+    return window.getSelection() + "" != "";
+};
+
+var strikethroughPerformed = false;
+function keypress(event){
+    var win = document.getElementById('edit').contentWindow;
+
+    if(keyIs_s_(event.which) && selectionExists(win)){
+        win.document.execCommand("strikethrough", false, null);
+        event.preventDefault();
+        strikethroughPerformed = true;
+    }
+    // this here so that if user presses space after striking through, the strikethrough doesn't continue onto the text they type
+    //else if(event.which == "32"){
+    //    win.document.execCommand("strikethrough", false, null);
+    //}
+    else{
+        if (strikethroughPerformed){
+            win.document.execCommand("strikethrough", false, null);
+            strikethroughPerformed = false;
+        }
+        win.document.execCommand("forecolor", false, 'red');
+    }
 };
 
 function start(){
