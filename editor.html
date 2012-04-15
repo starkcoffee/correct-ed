@@ -10,13 +10,21 @@ $(document).ready(function(){
     }  catch (e) {
         alert("This editor is not supported by your browser.");
     }
-
+    $('#saveButton').click(function(){
+        $('#stuff').html($('#edit').contents().find('body').html());
+        document.getElementById('edit').contentWindow.document.designMode = "off";
+        $('#edit').hide();
+        $('#saveButton').hide();
+        $('#editButton').show();
+    });
 });
 
     </script>
     </head>
     <body >
+        <div id="stuff"></div>
         <iframe id="edit" width="100%" height="200px"></iframe>
-        <button id="save">
+        <button id="saveButton">Save</button>
+        <button id="editButton" style='display: none'>Edit</button>
     </body>
 </html>
