@@ -19,6 +19,7 @@ $(document).ready(function(){
         $('#content').show();
         $('#edit').hide();
         $('#doneButton').hide();
+        $('#repButton').hide();
         $('#editButton').show();
     });
 
@@ -27,6 +28,7 @@ $(document).ready(function(){
         $('#content').hide();
         $('#edit').show();
         $('#doneButton').show();
+        $('#repButton').show();
         $('#editButton').hide();
         document.getElementById('edit').contentWindow.document.execCommand("forecolor", false, 'red');
         document.getElementById("edit").contentWindow.focus();
@@ -73,7 +75,7 @@ function keypress(event){
     </script>
     </head>
     <body>
-        <div id="instruction">Enter some text to correct:</div>
+        <div id="instruction">Enter some text to correct. Select a word and type 's' to strikethrough.</div>
         <div id="content"></div>
         <iframe id="edit" width="100%" height="200px"></iframe>
         <button id="doneButton">Done</button>
