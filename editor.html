@@ -33,9 +33,9 @@ $(document).ready(function(){
     });
 
     $('#repButton').click(function(){
-         var contents = $('#edit').contents().find('body').html();
-         contents = contents.replace(/<p><\/p>/g, '');
-         $('#edit').contents().find('body').html(contents);
+         $('#edit').contents().find('p').filter(function() {
+            return $.trim($(this).text()) === ''
+        }).remove();
     });
 });
 
