@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Rich Text Editing Demo</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script>
+<!--Credits - this code would not have been possible without jquery and http://www.mozilla.org/editor/midasdemo/ -->
+$(document).ready(function(){
+    document.getElementById('edit').contentWindow.document.designMode = "on";
+
+    if (document.addEventListener) {
+        document.getElementById("edit").contentWindow.document.addEventListener("keypress", keypress, true);
+    } else if (document.attachEvent) {
+        document.getElementById("edit").contentWindow.document.attachEvent("keypress", keypress, true);
+    }
+
+    $('#doneButton').click(function(){
+        $('#instruction').hide();
+        $('#content').html($('#edit').contents().find('body').html());
+        $('#content').show();
+        $('#edit').hide();
+        $('#doneButton').hide();
+        $('#repButton').hide();
+        $('#editButton').show();
+    });
+
+    $('#editButton').click(function(){
+        $('#edit').contents().find('body').html($('#content').html());
+        $('#content').hide();
+        $('#edit').show();
+        $('#doneButton').show();
+        $('#repButton').show();
+        $('#editButton').hide();
+        document.getElementById('edit').contentWindow.document.execCommand("forecolor", false, 'red');
+        document.getElementById("edit").contentWindow.focus();
+    });
+
+    $('#repButton').click(function(){
+         $('#edit').contents().find('p').each(function() {
+             $(this).contents().each(function(){
+                 $(this).unwrap();
+             });
+        });
+
+    });
+});
+
+function keyIs_s_(keycode){
+    return keycode == 115 || keycode == 83;
+};
+
+function selectionExists(window){
+    return window.getSelection() + "" != "";
+};
+
+var strikethroughPerformed = false;
+function keypress(event){
+    // hack for firefox so pressing arrow keys doesn't undo the selection strikethrough
+    if (event.which == 0)
+        return;
+
+    var win = document.getElementById('edit').contentWindow;
+
+    if(keyIs_s_(event.which) && selectionExists(win)){
+        win.document.execCommand("strikethrough", false, null);
+        event.preventDefault();
+        strikethroughPerformed = true;
+    }
+    else{
+        // hack so typing after a strikethrough doesn't cause text to be in strikethrough
+        if (strikethroughPerformed){
+            win.document.execCommand("strikethrough", false, null);
+            strikethroughPerformed = false;
+        }
+        win.document.execCommand("forecolor", false, 'red');
+    }
+};
+
+    </script>
+    </head>
+    <body>
+        <div id="instruction"><p>Enter some text to correct! Select a word and type 's' to strikethrough. Sometimes the strikethrough
+            appears when you don't want it - just play around with adding space to get rid of it.</p>
+        </div>
+        <div id="content"></div>
+        <iframe id="edit" width="100%" height="200px"></iframe>
+        <button id="doneButton">Done</button>
+        <button id="editButton" style='display: none'>Correct</button>
+        <button id="repButton">Remove paragraphs</button>
+    </body>
+</html>
