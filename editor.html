@@ -35,9 +35,12 @@ $(document).ready(function(){
     });
 
     $('#repButton').click(function(){
-         $('#edit').contents().find('p').filter(function() {
-            return $.trim($(this).text()) === ''
-        }).remove();
+         $('#edit').contents().find('p').each(function() {
+             $(this).contents().each(function(){
+                 $(this).unwrap();
+             });
+        });
+
     });
 });
 
@@ -75,11 +78,13 @@ function keypress(event){
     </script>
     </head>
     <body>
-        <div id="instruction">Enter some text to correct. Select a word and type 's' to strikethrough.</div>
+        <div id="instruction"><p>Enter some text to correct! Select a word and type 's' to strikethrough. Sometimes the strikethrough
+            appears when you don't want it - just play around with adding space to get rid of it.</p>
+        </div>
         <div id="content"></div>
         <iframe id="edit" width="100%" height="200px"></iframe>
         <button id="doneButton">Done</button>
         <button id="editButton" style='display: none'>Correct</button>
-        <button id="repButton">Remove empty paragraphs</button>
+        <button id="repButton">Remove paragraphs</button>
     </body>
 </html>
